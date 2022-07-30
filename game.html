@@ -1,0 +1,131 @@
+<html>
+  <head>
+    <title>  БИКОВЕ И  КРАВИ   </title>
+<script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+<style>
+    
+    .font{
+        display:inline-block;
+        border: 20px solid black;
+        box-shadow: 20px 20px 10 px #eee;
+        padding:10px;
+        margin-right:10px;
+    }
+</style>
+</head>
+<body background = "https://previews.123rf.com/images/pilart/pilart1008/pilart100800234/7649799-cartoon-farm-animals-cow-and-bull-on-meadow.jpg">
+  
+<div id="myProject"></div>
+
+<script  type="text/babel">
+class Project extends React.Component {
+    constructor(properties)
+    {
+        super(properties);
+      this.state = {
+        player : " ",
+        computer :  Math.floor(Math.random() * (9999 - 1000) ) + 1000,
+        list: [],
+        win: "You win."
+      }
+      
+    }
+
+    hend = () =>{ 
+    
+       
+       
+    this.setState({player : this.state.player})
+        var cows  = 0;
+       var bulls = 0;
+     
+       
+       var computerArray =this.state.computer.toString().split("") ;
+       var playerArray = this.state.player.toString().split("") ;
+       var checkOne = 0; 
+       var checkTwo = 0;
+       var win = ""
+       
+       if(this.state.player >999 && this.state.player < 10000){
+	   
+       while(checkOne <4){
+        while(checkTwo <4){
+        if(computerArray[checkOne] == playerArray[checkTwo]){
+          cows++;
+        }
+        if(computerArray[checkOne] == playerArray[checkTwo] && checkOne == checkTwo){
+          bulls++
+          cows--;
+        }
+        checkTwo++;
+        }
+        checkTwo = 0;
+        checkOne++;
+       }
+       if(bulls == 4){
+        this.setState(state => {
+          state.list.push("Поздравления вие спечелихте!!! Числото е  : " + this.state.computer );
+        });
+      
+        this.setState({computer:Math.floor(Math.random() * (9999 - 1000) ) + 1000});
+       
+       }
+       else{
+        this.setState(state => {
+          state.list.push( "  " +" Число на играча :"+ this.state.player );
+		  state.list.push( "  " + " Число на компютъра :" + this.state.computer );
+		  state.list.push(" " +" Крави : " + cows );
+		  state.list.push("  Бикове : " + bulls);
+        });
+        
+       }
+     
+     }
+	 else {
+	 this.setState(state => {
+	 state.list.push("Въведеното от вас число е грешно ! Моля прочетете отново правилата на играта !");
+	 });
+	 
+	 }
+	 }
+    
+    bulls(){
+      this.setState({player:document.getElementById("player").value});
+      if(this.state.computer.toString() == this.state.computer.toString()){
+        this.setState({win: "1bull"});
+      }
+    
+  }
+  change = (event ) => {
+    this.setState({player:event.target.value})
+  }
+  render() {
+    return (
+        <div>
+        
+        <h1>Добре дошли в игра на  Бикове и Крави</h1>
+        <p>Моля въведете своето предположение !</p>
+        <input onChange = {this.change} type="text"/>
+        <button  onClick = {this.hend}>Провери</button>
+        <h3> <font color="blue">ИГРАЧ :{this.state.player} </font> </h3>
+        <h3> <font color="red">КОМПЮТЪР :  {this.state.computer} </font> </h3>
+		
+        
+
+        <ul>
+          {this.state.list.map(item => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+    </div>
+    );
+}
+}
+
+ReactDOM.render(<Project />, document.getElementById('myProject'))
+</script>
+
+</body>
+</html>
